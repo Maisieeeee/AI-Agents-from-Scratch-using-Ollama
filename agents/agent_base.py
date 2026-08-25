@@ -37,7 +37,7 @@ class AgentBase(ABC):
                 
                 # Call the Ollama chat API
                 response = ollama.chat(
-                    model='llama3.2:3b',  # Updated model name
+                    model='qwen3:1.7b',  # Updated model name
                     messages=messages
                 )
                 
