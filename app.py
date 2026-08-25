@@ -15,14 +15,14 @@ def main():
 
     st.sidebar.title("Select Task")
     task = st.sidebar.selectbox("Choose a task:", [
-        "Summarize Medical Text",
+        "Analyze Research Text",
         "Write and Refine Research Article",
         "Sanitize Medical Data (PHI)"
     ])
 
     agent_manager = AgentManager(max_retries=2, verbose=True)
 
-    if task == "Summarize Medical Text":
+    if task == "Analyze Research Text":
         summarize_section(agent_manager)
     elif task == "Write and Refine Research Article":
         write_and_refine_article_section(agent_manager)
@@ -30,23 +30,23 @@ def main():
         sanitize_data_section(agent_manager)
 
 def summarize_section(agent_manager):
-    st.header("Summarize Medical Text")
-    text = st.text_area("Enter medical text to summarize:", height=200)
-    if st.button("Summarize"):
+    st.header("Analyze Research Text")
+    text = st.text_area("Enter scientific research text to analyze:", height=200)
+    if st.button("Analyze"):
         if text:
             main_agent = agent_manager.get_agent("summarize")
             validator_agent = agent_manager.get_agent("summarize_validator")
-            with st.spinner("Summarizing..."):
+            with st.spinner("Analyzing research text..."):
                 try:
                     summary = main_agent.execute(text)
-                    st.subheader("Summary:")
+                    st.subheader("Research Analysis:")
                     st.write(summary)
                 except Exception as e:
                     st.error(f"Error: {e}")
                     logger.error(f"SummarizeAgent Error: {e}")
                     return
 
-            with st.spinner("Validating summary..."):
+            with st.spinner("Validating research analysis..."):
                 try:
                     validation = validator_agent.execute(original_text=text, summary=summary)
                     st.subheader("Validation:")
@@ -55,7 +55,7 @@ def summarize_section(agent_manager):
                     st.error(f"Validation Error: {e}")
                     logger.error(f"SummarizeValidatorAgent Error: {e}")
         else:
-            st.warning("Please enter some text to summarize.")
+            st.warning("Please enter scientific research text to analyze.")
 
 def write_and_refine_article_section(agent_manager):
     st.header("Write and Refine Research Article")
